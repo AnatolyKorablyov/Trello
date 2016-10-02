@@ -1,4 +1,4 @@
-goog.provide("ispring.sample.ru");
+goog.provide("ispring.sample.languages.ru");
 
 /**
  * @export
@@ -7,12 +7,14 @@ goog.scope(function() {
     /**
      * @constructor
      */
-    ispring.sample.ru = goog.defineClass(null, {
+    ispring.sample.languages.ru = goog.defineClass(null, {
         constructor: function () {
             this.MESSAGES =
             {
                 "LOGIN" : "Имя пользователя",
                 "PASSWORD" : "Пароль",
+                "SEND" : "Отправить",
+                "LOGOUT" : "Выйти",
                 "INCORRECT_LOGIN" : "Некорректный логин",
                 "EMPTY_PASS" : "Пароль не может быть пустым",
                 "SHORT_PASS" : "Пароль не может содержать меньше 4 символов!",
@@ -21,7 +23,9 @@ goog.scope(function() {
                 "WRONG_PASS" : "Пароль неверный",
                 "CREATE_BOARD_BTN" : "Создать доску",
                 "BACKSPACE_BUTTON" : "Назад",
-                "RENAME_BUTTON" : "Переименовать"
+                "RENAME_BUTTON" : "Переименовать",
+                "MESSAGE_FIRST_LANG" : "Русский",
+                "MESSAGE_SECOND_LANG" : "English"
             }
         }
     });

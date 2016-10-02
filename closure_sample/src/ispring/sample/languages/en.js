@@ -1,4 +1,4 @@
-goog.provide("ispring.sample.en");
+goog.provide("ispring.sample.languages.en");
 
 /**
  * @export
@@ -7,12 +7,14 @@ goog.scope(function() {
     /**
      * @constructor
      */
-    ispring.sample.en = goog.defineClass(null, {
+    ispring.sample.languages.en = goog.defineClass(null, {
         constructor: function () {
             this.MESSAGES =
             {
                 "LOGIN" : "User name",
                 "PASSWORD" : "Password",
+                "SEND" : "Send",
+                "LOGOUT" : "Logout",
                 "INCORRECT_LOGIN" : "Incorrect login",
                 "EMPTY_PASS" : "Password can not be empty",
                 "SHORT_PASS" : "The password can not be less than 4 characters!",
@@ -21,7 +23,9 @@ goog.scope(function() {
                 "WRONG_PASS" : "Wrong password",
                 "CREATE_BOARD_BTN" : "Create board",
                 "BACKSPACE_BUTTON" : "Backspace",
-                "RENAME_BUTTON" : "Rename"
+                "RENAME_BUTTON" : "Rename",
+                "MESSAGE_FIRST_LANG" : "Русский",
+                "MESSAGE_SECOND_LANG" : "English"
             }
         }
     });

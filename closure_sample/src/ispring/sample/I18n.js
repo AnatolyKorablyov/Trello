@@ -1,23 +1,23 @@
 goog.provide("ispring.sample.I18n");
 
-goog.require("ispring.sample.ru");
-goog.require("ispring.sample.en");
+goog.require("ispring.sample.languages.ru");
+goog.require("ispring.sample.languages.en");
 
 /**
  * @export
  */
 goog.scope(function()
 {
-    const RU_LANGUAGE = ispring.sample.ru;
-    const EN_LANGUAGE = ispring.sample.en;
+    const RU_LANGUAGE = ispring.sample.languages.ru;
+    const EN_LANGUAGE = ispring.sample.languages.en;
 
     /**
      * @constructor
      */
     ispring.sample.I18n = goog.defineClass(null, {
-        constructor: function ()
+        constructor: function (lang)
         {
-            if (window.language == "ru")
+            if (lang == "ru")
             {
                 this._messageMap = new RU_LANGUAGE();
             }

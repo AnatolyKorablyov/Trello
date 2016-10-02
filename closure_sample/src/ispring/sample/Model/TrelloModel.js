@@ -1,78 +1,92 @@
-goog.provide("ispring.sample.Model.TrelloModel");
+goog.provide("ispring.sample.model.TrelloModel");
 
-goog.require("ispring.sample.Model.Board");
+goog.require("ispring.sample.model.Board");
+
 /**
  * @export
  */
 goog.scope(function() {
-    
-    const BOARD = ispring.sample.Model.Board;
-    
+
+    const BOARD = ispring.sample.model.Board;
+
     /**
      * @constructor
      */
-    ispring.sample.Model.TrelloModel = goog.defineClass(null, {
-        constructor: function ()
+    ispring.sample.model.TrelloModel = goog.defineClass(null, {
+        constructor: function (userName)
         {
-            this._userName = "";
-            this.takeUsersInfoFromLocalStorage();
-            this.takeAllBoardsFromLocalStorage();
+            this._userName = userName;
+            this._userBoards = [];
+            this._boards = {'0': (new BOARD("New Board", "0"))};
         },
+        
+        getUserBoardsID: function()
+        {
+            return this._userBoards;
+        },
+
+        getUserName: function()
+        {
+            return this._userName;
+        },
+        
+        getBoards: function()
+        {
+            return this._boards;
+        },
+        
         setUserName: function(userName)
         {
             this._userName = userName;
+        },
 
-            this._userBoards = this._usersInfo[this._userName];
-            if (this._userBoards == null)
-            {
-                this._userBoards = [];
-            }
-        },
-        takeUsersInfoFromLocalStorage: function()
+        /**
+         * @param {ispring.sample.model.Board} board
+         */
+        setBoard: function(board)
         {
-            this._usersInfo = {"admin": ["0"]};
-            var UsersStorage = window.localStorage.getItem("usersInfo");
-            if (UsersStorage != null)
+            this._boards[board._id]._listsId = [];
+
+            for (var i = 0; i < board.getNumberLists(); i++)
             {
-                this._usersInfo = JSON.parse(UsersStorage);
+                this._boards[board._id]._listsId.push(board._listsId[i]);
             }
-        },
-        takeAllBoardsFromLocalStorage: function()
-        {
-            this._boards = {'0': (new BOARD("New Board", "0"))};
-            var BoardsStorage = window.localStorage.getItem('boards');
-            if (BoardsStorage != null)
+
+            this._boards[board._id]._lists = {};
+            const lists = board.getLists();
+            for (var key in lists)
             {
-                this._boards = JSON.parse(BoardsStorage);
+                this._boards[board._id]._lists[key] = lists[key];
             }
+
         },
-        createBoard: function()
+        
+        createBoard: function(boardName)
         {
             var unicalID = new Date().getTime().toString();
-            this._boards[unicalID] = new BOARD("New Board", unicalID);
-            window.localStorage.setItem('boards', JSON.stringify(this._boards));
+            this._boards[unicalID] = new BOARD(boardName, unicalID);
             this._userBoards.push(unicalID);
-            this._usersInfo[this._userName] = this._userBoards;
-
-            window.localStorage.setItem("usersInfo", JSON.stringify(this._usersInfo));
         },
+        
         getUserBoard: function(numId)
         {
             var uId = this._userBoards[numId];
-            return this._boards[this._userBoards[numId]];
+            return this._boards[uId];
         },
+        
         getNumberBoards: function()
         {
             return this._userBoards.length;
         },
+        
         getBoard: function(boardID)
         {
             return this._boards[boardID];
         },
-        RenameBoard: function(id, newName)
+        
+        renameBoard: function(id, newName)
         {
             this._boards[id]._nameBoard = newName;
-            window.localStorage.setItem('boards', JSON.stringify(this._boards));
         }
     });
 });

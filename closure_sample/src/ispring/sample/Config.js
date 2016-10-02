@@ -10,6 +10,18 @@ goog.scope(function()
      */
     ispring.sample.Config = goog.defineClass(null, {
         constructor: function () {
+            this._keys = 
+            {
+                USERS_INFO: "usersInfo",
+                USERS: "users",
+                BOARDS: "boards",
+                BOARD: "board",
+                NAME: "name",
+                ID: "id",
+                LISTS: "lists",
+                LIST: "list"
+            };
+            
             this._ID_AUTHORIZATION_FORM = "AuthorizationForm";
 
             this._ID_INCORRECT_LOGIN_MESSAGE = "INCORRECT_LOGIN";
@@ -24,10 +36,19 @@ goog.scope(function()
             this._ID_INPUT_USER_NAME = "inputUserName";
             this._ID_INPUT_PASSWORD  = "inputUserPass";
 
+            this._ID_APP_TOOLBAR = "AppToolbarForm";
             this._ID_MAIN_TOOLBAR = "MainToolbarForm";
             this._ID_BOARD_TOOLBAR = "boardToolbar";
             this._ID_BOARDS_PANEL = "BoardsForm";
             this._ID_BOARD_PLACE = "BoardPlace";
+            this._ID_LIST_PLACE = "ListPlace";
+
+            this._ID_LABEL_SELECT_FIRST_LANG = "MESSAGE_FIRST_LANG";
+            this._ID_LABEL_SELECT_SECOND_LANG = "MESSAGE_SECOND_LANG";
+            this._ID_LABEL_LOGOUT = "LOGOUT";
+            this._ID_LABEL_LOGIN = "LOGIN";
+            this._ID_LABEL_PASSWORD = "PASSWORD";
+            this._ID_LABEL_SEND = "SEND";
 
             this._ID_LABEL_USER_NAME_MESSAGE = "MessageUserName";
             this._ID_LABEL_PASSWORD_MESSAGE = "MessagePassword";

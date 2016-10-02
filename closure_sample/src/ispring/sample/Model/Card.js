@@ -1,17 +1,17 @@
-goog.provide("ispring.sample.Model.Card");
-goog.require("ispring.sample.Model.Comment");
+goog.provide("ispring.sample.model.Card");
+goog.require("ispring.sample.model.Comment");
 
 /**
  * @export
  */
 goog.scope(function()
 {
-    const COMMENT = ispring.sample.Model.Comment;
+    const COMMENT = ispring.sample.model.Comment;
 
     /**
      * @constructor
      */
-    ispring.sample.Model.Card = goog.defineClass(null, {
+    ispring.sample.model.Card = goog.defineClass(null, {
         constructor: function (nameCard)
         {
             this._nameCard = nameCard;
