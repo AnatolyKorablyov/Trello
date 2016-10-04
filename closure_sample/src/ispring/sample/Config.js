@@ -49,6 +49,7 @@ goog.scope(function()
             this._ID_LABEL_LOGIN = "LOGIN";
             this._ID_LABEL_PASSWORD = "PASSWORD";
             this._ID_LABEL_SEND = "SEND";
+            this._ID_LABEL_ADD_CARD = "ADD_CARD";
 
             this._ID_LABEL_USER_NAME_MESSAGE = "MessageUserName";
             this._ID_LABEL_PASSWORD_MESSAGE = "MessagePassword";

@@ -4056,7 +4056,8 @@ goog.addDependency('../../../src/ispring/sample/controller/TrelloController.js',
 goog.addDependency('../../../src/ispring/sample/languages/en.js', ['ispring.sample.languages.en'], [], false);
 goog.addDependency('../../../src/ispring/sample/languages/ru.js', ['ispring.sample.languages.ru'], [], false);
 goog.addDependency('../../../src/ispring/sample/loader/AuthorizationLoader.js', ['ispring.sample.loader.AuthorizationLoader'], ['ispring.sample.Config', 'ispring.sample.model.AuthorizationModel'], false);
-goog.addDependency('../../../src/ispring/sample/loader/BoardLoader.js', ['ispring.sample.loader.BoardLoader'], ['ispring.sample.Config', 'ispring.sample.model.Board'], false);
+goog.addDependency('../../../src/ispring/sample/loader/BoardLoader.js', ['ispring.sample.loader.BoardLoader'], ['ispring.sample.Config', 'ispring.sample.loader.ListLoader', 'ispring.sample.model.Board'], false);
+goog.addDependency('../../../src/ispring/sample/loader/ListLoader.js', ['ispring.sample.loader.ListLoader'], ['ispring.sample.Config', 'ispring.sample.model.List'], false);
 goog.addDependency('../../../src/ispring/sample/loader/TrelloLoader.js', ['ispring.sample.loader.TrelloLoader'], ['ispring.sample.Config', 'ispring.sample.model.Board', 'ispring.sample.model.TrelloModel'], false);
 goog.addDependency('../../../src/ispring/sample/model/ApplicationModel.js', ['ispring.sample.model.ApplicationModel'], [], false);
 goog.addDependency('../../../src/ispring/sample/model/AuthorizationModel.js', ['ispring.sample.model.AuthorizationModel'], ['ispring.sample.ShaCrypt'], false);

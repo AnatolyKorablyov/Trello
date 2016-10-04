@@ -50,7 +50,7 @@ goog.scope(function()
         changeLanguage: function()
         {
             this._trelloView.changeLanguage(this._parentController.getLanguage());
-            
+
             for (var i = 0; i < this._childConstructors.length; i++)
             {
                 this._childConstructors[i].changeLanguage();
@@ -68,7 +68,7 @@ goog.scope(function()
         clickBackspace: function(modelBoard)
         {
             this._trelloModel.setBoard(modelBoard);
-            console.log(this._trelloModel);
+            this._childConstructors = [];
             this._trelloView.showView();
         },
 

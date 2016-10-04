@@ -25,7 +25,8 @@ goog.scope(function() {
                 "BACKSPACE_BUTTON" : "Назад",
                 "RENAME_BUTTON" : "Переименовать",
                 "MESSAGE_FIRST_LANG" : "Русский",
-                "MESSAGE_SECOND_LANG" : "English"
+                "MESSAGE_SECOND_LANG" : "English",
+                "ADD_CARD" : "Добавить карточку"
             }
         }
     });

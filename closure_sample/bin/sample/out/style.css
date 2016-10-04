@@ -3,4 +3,26 @@ body {
   padding: 0;
   overflow: hidden;
   cursor: default;
-  -webkit-tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+#col1
+{
+  width: 170px; /* Ширина колонки */
+  background: #E2E4E6; /* Цвет фона колонки */
+  display: inline-block;
+  padding: 5px;
+}
+
+#commentTitle
+{
+  background: #E2E4E6;
+  display: table-cell;
+}
+
+.last_name_from {
+  display: table-cell;
+  color: white;
+  background: blue;
+}

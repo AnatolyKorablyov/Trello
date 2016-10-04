@@ -73,9 +73,11 @@ goog.scope(function()
          */
         _createListPanel: function()
         {
-            this._listForm = document.createElement(goog.dom.TagName.DIV);
-            this._listForm.id = this._conf._ID_LIST_PLACE;
-            document.getElementById("container").appendChild(this._listForm);
+            this._listsForm = document.createElement(goog.dom.TagName.DIV);
+            this._listsForm.id = this._conf._ID_LIST_PLACE;
+            this._listsForm.style.display = 'display: table-row';
+
+            document.getElementById("container").appendChild(this._listsForm);
         },
 
         /**
@@ -84,11 +86,19 @@ goog.scope(function()
         drawLists: function(list)
         {
             const thisPtr = this;
+            const listId = list._id;
+
+            var listForm = document.createElement(goog.dom.TagName.DIV);
+            listForm.id = 'col1';
+
             var listNameForm = document.createElement(goog.dom.TagName.INPUT);
             listNameForm.id = list._id;
             listNameForm.value = list._nameList;
-            listNameForm.style.color = "white";
-            listNameForm.style.background = "blue";
+            listNameForm.className = "last_name_from";
+           // listNameForm.style.display = 'display: table-cell';
+          //  listNameForm.style.color = "white";
+           // listNameForm.style.background = "blue";
+
 
             listNameForm.onblur = function()
             {
@@ -97,13 +107,61 @@ goog.scope(function()
                     thisPtr._controller.renameList(this.id, this.value);
                 }
             };
+            listForm.appendChild(listNameForm);
 
-            this._listForm.appendChild(listNameForm);
+            for (var i = 0; i < list._cards.length; ++i)
+            {
+                // TODO:: вынести стили в css
+                var cardTitle = document.createElement(goog.dom.TagName.INPUT);
+                cardTitle.value = list._cards[i]._nameCard;
+                cardTitle.style.display = 'display: table-cell';
+                cardTitle.style.color = "white";
+                cardTitle.style.background = "grey";
+
+                cardTitle.onblur = function()
+                {
+                    if (this.value != "")
+                    {
+                        thisPtr._controller.renameCard(this.id, i, this.value);
+                    }
+                };
+
+                listForm.appendChild(cardTitle);
+            }
+
+            var addCard = new Button(this._i18n.getMessageById(this._conf._ID_LABEL_ADD_CARD));
+
+            addCard._btn.style.display = 'display: table-cell';
+            addCard._btn.style.background = '#E2E4E6';
+
+            addCard._btn.onclick = function()
+            {
+                thisPtr._controller.clickAddCard(listId);
+            };
+
+            listForm.appendChild(addCard._btn);
+
+
+            this._listsForm.appendChild(listForm);
         },
-        
+
+
+        /**
+         * @param node
+         * @private
+         */
+        _removeChildren: function(node)
+        {
+            while (node.firstChild)
+            {
+                node.removeChild(node.firstChild);
+            }
+        },
+
         deleteView: function()
         {
-            this._listForm.parentElement.removeChild(this._listForm);
+            this._removeChildren(this._listsForm);
+            //this._listsForm.parentElement.removeChild(this._listForm);
             this._toolbarForm.parentElement.removeChild(this._toolbarForm);
         }
     });

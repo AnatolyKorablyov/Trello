@@ -45,7 +45,8 @@ goog.scope(function() {
          */
         setBoard: function(board)
         {
-            this._boards[board._id]._listsId = [];
+            this._boards[board._id]._listsId = []; // лишнее действие
+            // нельзя обращаться к приватным переменным
 
             for (var i = 0; i < board.getNumberLists(); i++)
             {

@@ -83,6 +83,18 @@ goog.scope(function()
             this._lists[id]._nameList = newName;
         },
 
+        renameCard: function(id, numId, newName)
+        {
+            // TODO:: убрать прямое включение, абстрагировать
+            this._lists[id].renameCard(numId, newName);
+        },
+
+        clearListsID: function()
+        {
+            this._listsId = [];
+            this._lists = {};
+        },
+        
         /**
          * @returns {Array}
          */
@@ -97,6 +109,11 @@ goog.scope(function()
         getLists: function()
         {
             return this._lists;
+        },
+        
+        addCardInLists: function(id)
+        {
+            this._lists[id].addCard("");
         }
     });
 });

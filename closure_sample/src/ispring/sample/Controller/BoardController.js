@@ -48,6 +48,7 @@ goog.scope(function()
         changeLanguage: function()
         {
             this._boardView.changeLanguage(this._parentController.getLanguage());
+            this.drawLists();
         },
 
         removeChildren: function(node)
@@ -69,6 +70,11 @@ goog.scope(function()
             this._boardModel.renameList(id, newName);
         },
 
+        renameCard: function(id, numId, newName)
+        {
+            this._boardModel.renameCard(id, numId, newName);    
+        },
+        
         drawLists: function()
         {
             this.removeChildren(document.getElementById(this._conf._ID_LIST_PLACE));
@@ -80,6 +86,12 @@ goog.scope(function()
             }
         },
 
+        clickAddCard: function(id)
+        {
+            this._boardModel.addCardInLists(id);
+            this.drawLists();
+        },
+        
         createList: function(listName)
         {
             //this._trelloModel.createBoard(listName);
