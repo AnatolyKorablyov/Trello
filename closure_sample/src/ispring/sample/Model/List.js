@@ -23,9 +23,9 @@ goog.scope(function()
         {
             return this._cards;    
         },
-        
+
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         getCardsLength: function()
         {
@@ -34,12 +34,19 @@ goog.scope(function()
         
         addCard: function(nameCard)
         {
-            this._cards.push(new CARD(nameCard));
+            var unicalID = new Date().getTime().toString();
+            this._cards.push(new CARD(nameCard, unicalID));
         },
         
-        renameCard: function(numId, newName)
+        renameCard: function(Id, newName)
         {
-            this._cards[numId]._nameCard = newName;
+            for (var i = 0; i < this._cards.length; ++i)
+            {
+                if (Id == this._cards[i].getCardId())
+                {
+                    this._cards[i].renameCard(newName);
+                }
+            }
         }
         
     });

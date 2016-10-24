@@ -1,7 +1,7 @@
 goog.provide("ispring.sample.view.AuthorizationView");
 goog.require("goog.dom.TagName");
 
-goog.require("ispring.sample.I18n");
+//goog.require("ispring.sample.I18n");
 goog.require("ispring.sample.Config");
 goog.require("ispring.sample.Button");
 
@@ -10,22 +10,41 @@ goog.require("ispring.sample.Button");
  */
 goog.scope(function()
 {
-    const I18n = ispring.sample.I18n;
+    ///const I18n = ispring.sample.I18n;
     const Config = ispring.sample.Config;
     const BUTTON = ispring.sample.Button;
 
     /**
-     * @constructor
+     * @type {ispring.sample.controller.AuthorizationController}
      */
     ispring.sample.view.AuthorizationView = goog.defineClass(null, {
         constructor: function (controller)
         {
+            const Config = ispring.sample.Config;
+
+            /**
+             * @type {ispring.sample.Config}
+             * @private
+             */
             this._conf = new Config();
+
             this._controller = controller;
-            this._i18n = new I18n(this._controller.getLanguage());
+
+            /**
+             * @type {ispring.sample.I18n}
+             * @private
+             */
+            this._i18n = this._controller.getI18n();
+
+
             this.FormAuthorizationInit();
         },
 
+
+        /**
+         * @param container
+         * @param errorMessage
+         */
         showError: function (container, errorMessage) {
             container.className = 'error';
             var msgElem = document.createElement(goog.dom.TagName.SPAN);
@@ -35,6 +54,9 @@ goog.scope(function()
             container.appendChild(msgElem);
         },
 
+        /**
+         * @param container
+         */
         resetError: function (container) {
             container.className = '';
             if (container.lastChild.className == "error-message") { // в константу
@@ -42,63 +64,77 @@ goog.scope(function()
             }
         },
 
+        resetAllErrors: function()
+        {
+            this.resetError(this._loginForm);
+            this.resetError(this._passForm);
+        },
+
         FormAuthorizationInit: function()
         {
             /**
-             *
              * @type {Element}
              */
             var AuthorizationForm = document.createElement(goog.dom.TagName.DIV);
             AuthorizationForm.id = this._conf._ID_AUTHORIZATION_FORM;
-            AuthorizationForm.style = "display: table horizontal-";
 
             /**
-             *
              * @type {Element}
+             * @private
              */
-            var loginForm = document.createElement(goog.dom.TagName.DIV);
-            loginForm.style = 'display: table-row';
+            this._loginForm = document.createElement(goog.dom.TagName.DIV);
 
+            /**
+             * @type {Element}
+             * @private
+             */
             this._loginMessage = document.createElement(goog.dom.TagName.LABEL);
             this._loginMessage.id = this._conf._ID_LABEL_USER_NAME_MESSAGE;
             this._loginMessage.innerHTML = this._i18n.getMessageById(this._conf._ID_LABEL_LOGIN) + " ";
-            this._loginMessage.style = "display: table-cell";
-            loginForm.appendChild(this._loginMessage);
+            this._loginMessage.className = "inline_block_form";
+            this._loginForm.appendChild(this._loginMessage);
 
             var loginInput = document.createElement(goog.dom.TagName.INPUT);
             loginInput.id = this._conf._ID_INPUT_USER_NAME;
             loginInput.type = "text";
-            loginInput.style = "display: table-cell";
-            loginForm.appendChild(loginInput);
+            loginInput.className = "inline_block_form";
+            this._loginForm.appendChild(loginInput);
 
-            AuthorizationForm.appendChild(loginForm);
+            AuthorizationForm.appendChild(this._loginForm);
 
             /**
-             *
              * @type {Element}
+             * @private
              */
-            var passForm = document.createElement(goog.dom.TagName.DIV);
-            passForm.style = 'display: table-row';
+            this._passForm = document.createElement(goog.dom.TagName.DIV);
 
+            /**
+             * @type {Element}
+             * @private
+             */
             this._passMessage = document.createElement(goog.dom.TagName.LABEL);
             this._passMessage.id = this._conf._ID_LABEL_PASSWORD_MESSAGE;
             this._passMessage.innerHTML = this._i18n.getMessageById(this._conf._ID_LABEL_PASSWORD) + " ";
-            this._passMessage.style = "display: table-cell";
-            passForm.appendChild(this._passMessage);
+            this._passMessage.className = "inline_block_form";
+            this._passForm.appendChild(this._passMessage);
 
             var passInput = document.createElement(goog.dom.TagName.INPUT);
             passInput.id = this._conf._ID_INPUT_PASSWORD;
             passInput.type = "password";
-            passInput.style = "display: table-cell";
-            passForm.appendChild(passInput);
+            passInput.className = "inline_block_form";
+            this._passForm.appendChild(passInput);
 
-            AuthorizationForm.appendChild(passForm);
+            AuthorizationForm.appendChild(this._passForm);
 
+            /**
+             * @type {ispring.sample.Button}
+             * @private
+             */
             this._btnSend = new BUTTON(this._i18n.getMessageById(this._conf._ID_LABEL_SEND));
             const thisPtr = this;
             this._btnSend._btn.onclick = function ()
             {
-                thisPtr._controller.ButtonSendAct();
+                thisPtr._controller.buttonSendAct();
             };
             AuthorizationForm.appendChild(this._btnSend._btn);
 
@@ -111,17 +147,14 @@ goog.scope(function()
         _changeText: function()
         {
             this._loginMessage.innerHTML = this._i18n.getMessageById(this._conf._ID_LABEL_LOGIN) + " ";
+            //this._loginForm.appendChild(this._loginMessage);
             this._passMessage.innerHTML = this._i18n.getMessageById(this._conf._ID_LABEL_PASSWORD) + " ";
             this._btnSend._btn.value = this._i18n.getMessageById(this._conf._ID_LABEL_SEND);
         },
 
-        /**
-         * @param {string} lang
-         */
-        changeLanguage: function(lang)
-        {
-            this._i18n = new I18n(lang);
 
+        changeLanguage: function()
+        {
             this._changeText();
         }
     });

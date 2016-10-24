@@ -7,7 +7,6 @@ goog.require("ispring.sample.ShaCrypt");
  */
 goog.scope(function()
 {
-    const ShaCrypt = ispring.sample.ShaCrypt;
 
     /**
      * @constructor
@@ -15,14 +14,29 @@ goog.scope(function()
     ispring.sample.model.AuthorizationModel = goog.defineClass(null, {
         constructor: function ()
         {
+            const ShaCrypt = ispring.sample.ShaCrypt;
+            /**
+             * @type {ispring.sample.ShaCrypt}
+             * @private
+             */
             this._crypt = new ShaCrypt();
-            this._users = {"admin": this._crypt.sha1("admin")};
+
+            /**
+             * @type {string}
+             */
+            var defaultName = "admin";
+
+            /**
+             * @type {Object}
+             * @private
+             */
+            this._users = {};
+            this._users[defaultName] = this._crypt.sha1(defaultName);
             
         },
-        
+
         /**
-         *
-         * @returns {{admin: *}|*}
+         * @returns {Object|*}
          */
         getUsers: function()
         {
@@ -30,7 +44,6 @@ goog.scope(function()
         },
 
         /**
-         * 
          * @param users
          */
         setUsers: function(users)
@@ -39,7 +52,6 @@ goog.scope(function()
         },
         
         /**
-         *
          * @param login
          * @returns {*}
          */
@@ -59,11 +71,13 @@ goog.scope(function()
         },
 
         /**
-         * 
-         * @param login
+         * @param {string} login
          */
         setUserName: function(login)
         {
+            /**
+             * @type {string}
+             */
             this._userName = login;
         },
         

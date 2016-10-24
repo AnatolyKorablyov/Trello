@@ -42,6 +42,7 @@ goog.scope(function()
             this._ID_BOARDS_PANEL = "BoardsForm";
             this._ID_BOARD_PLACE = "BoardPlace";
             this._ID_LIST_PLACE = "ListPlace";
+            this._ID_CARD_PLACE = "cardPlace";
 
             this._ID_LABEL_SELECT_FIRST_LANG = "MESSAGE_FIRST_LANG";
             this._ID_LABEL_SELECT_SECOND_LANG = "MESSAGE_SECOND_LANG";
@@ -50,7 +51,8 @@ goog.scope(function()
             this._ID_LABEL_PASSWORD = "PASSWORD";
             this._ID_LABEL_SEND = "SEND";
             this._ID_LABEL_ADD_CARD = "ADD_CARD";
-
+            this._ID_LABEL_ADD_LIST = "ADD_LIST";
+            
             this._ID_LABEL_USER_NAME_MESSAGE = "MessageUserName";
             this._ID_LABEL_PASSWORD_MESSAGE = "MessagePassword";
             this._ID_LABEL_BACKSPACE_BUTTON = "BACKSPACE_BUTTON";
@@ -63,6 +65,16 @@ goog.scope(function()
             this._NAME_ACT_RENAME_BOARD = "renameBoard";
             this._NAME_ACT_CLICK_BOARD = "clickBoard";
             this._NAME_ACT_BACKSPACE = "backspace";
+
+            this._EVENT_LANGUAGE_MODIFIED =  "langModified";
+            this._EVENT_CREATE_BOARD = "createBoard";
+            this._EVENT_BACKSPACE_TO_TRELLO = "trelloBackspace";
+            this._EVENT_CLICK_BOARD = "clickBoard";
+            this._EVENT_ADD_LIST = "addList";
+            this._EVENT_CLEAN_VIEW = "cleanViewEvent";
+            this._EVENT_MODIFIED_LISTS_MODEL = "modifiedListsModelEvent";
+            this._EVENT_MODIFIED_BOARDS_MODEL = "modifiedBoardsModelEvent";
+            
         }
     });
 });

@@ -1,10 +1,8 @@
-goog.provide("ispring.sample.loader.ListLoader");
+goog.provide("ispring.sample.loader.CardLoader");
 
 goog.require("ispring.sample.Config");
 
-//goog.require("ispring.sample.model.Board");
-goog.require("ispring.sample.model.List");
-goog.require("ispring.sample.loader.CardLoader");
+goog.require("ispring.sample.model.Card");
 
 /**
  * @export
@@ -16,7 +14,7 @@ goog.scope(function()
      * @constructor
      * @param {Object} serializedModel
      */
-    ispring.sample.loader.ListLoader = goog.defineClass(null, {
+    ispring.sample.loader.CardLoader = goog.defineClass(null, {
         constructor: function ()
         {
             const Config = ispring.sample.Config;
@@ -24,19 +22,17 @@ goog.scope(function()
         },
 
         /**
-         * @return {ispring.sample.model.List}
+         * @return {ispring.sample.model.Card}
          */
-        loadListModel: function(list)
+        loadCardModel: function(card)
         {
-            const List = ispring.sample.model.List;
-            const listModel = new List(list._nameList, list._id);
+            const Card = ispring.sample.model.Card;
 
+            const cardModel = new Card(card._cardName, card._id);
 
-            //listModel.clearListsID();
-            //this._loadCardId(boardModel.getListsID(), board._listsId);
-            this._loadCards(listModel.getCards(), list._cards);
+            this._loadComments(cardModel.getComments(), card._comments);
 
-            return listModel;
+            return cardModel;
         },
 
         /**
@@ -58,14 +54,11 @@ goog.scope(function()
          * @param {Array} cards
          * @private
          */
-        _loadCards: function(listModelCards, cards)
+        _loadComments: function(listModelCards, cards)
         {
-            const CardLoader = ispring.sample.loader.CardLoader;
-            const cardLoader = new CardLoader();
-
             for (var i = 0; i < cards.length; i++)
             {
-               listModelCards.push(cardLoader.loadCardModel(cards[i]));
+                listModelCards.push(cards[i]);
             }
         }
     });

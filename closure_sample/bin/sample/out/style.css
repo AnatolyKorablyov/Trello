@@ -21,8 +21,31 @@ body {
   display: table-cell;
 }
 
-.last_name_from {
+.last_name_from
+{
   display: table-cell;
   color: white;
   background: blue;
+}
+
+.table_cell_form
+{
+  display: table-cell;
+}
+
+.table_row_form
+{
+  display: table-row;
+}
+
+.inline_block_form
+{
+  display: inline-block;
+}
+
+.card_title_form
+{
+  display: table-cell;
+  color: white;
+  background: grey;
 }

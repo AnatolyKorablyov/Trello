@@ -1,11 +1,9 @@
 goog.provide("ispring.sample.controller.TrelloController");
 
-goog.require("goog.dom.TagName");
 goog.require("ispring.sample.Config");
 
 goog.require("ispring.sample.view.TrelloView");
-goog.require("ispring.sample.loader.BoardLoader");
-goog.require("ispring.sample.controller.BoardController");
+goog.require("ispring.sample.controller.BoardsController");
 
 
 /**
@@ -13,9 +11,7 @@ goog.require("ispring.sample.controller.BoardController");
  */
 goog.scope(function()
 {
-    const Config = ispring.sample.Config;
-    const TrelloView = ispring.sample.view.TrelloView;
-
+    
     /**
      * @constructor
      * @param {ispring.sample.model.TrelloModel} model
@@ -23,12 +19,69 @@ goog.scope(function()
     ispring.sample.controller.TrelloController = goog.defineClass(null, {
         constructor: function (model)
         {
+            const Config = ispring.sample.Config;
+
+            /**
+             * @type {ispring.sample.Config}
+             * @private
+             */
             this._conf = new Config();
             this._trelloModel = model;
-            this._trelloView = new TrelloView(this);
-            
+
+            /**
+             * @type {Array}
+             * @private
+             */
             this._childConstructors = [];
-            this.drawBoards();
+
+            const thisPtr = this;
+
+            document.addEventListener(this._conf._EVENT_BACKSPACE_TO_TRELLO, function (e)
+            {
+                thisPtr._trelloView.showView();
+            });
+
+            document.addEventListener(this._conf._EVENT_CLICK_BOARD, function (e)
+            {
+                thisPtr._trelloView.hideView();
+            });
+
+            document.addEventListener(this._conf._EVENT_CLEAN_VIEW, function(e)
+            {
+                thisPtr._trelloView.cleanView();
+            });
+        },
+
+        /**
+         * @private
+         */
+        _createBoardsController: function()
+        {
+            const BoardsController = ispring.sample.controller.BoardsController;
+            /**
+             * @type {ispring.sample.controller.BoardsController}
+             * @private
+             */
+            this._boardsController = new BoardsController(this._trelloModel.getBoards());
+            
+            this._boardsController.addParentController(this);
+            
+        },
+        
+        _createView: function()
+        {
+            const TrelloView = ispring.sample.view.TrelloView;
+            /**
+             * @type {ispring.sample.view.TrelloView}
+             * @private
+             */
+            this._trelloView = new TrelloView(this);
+
+            const thisPtr = this;
+            document.addEventListener(this._conf._EVENT_LANGUAGE_MODIFIED, function (e)
+            {
+                thisPtr._trelloView.changeLanguage();
+            });
         },
         
         /**
@@ -36,78 +89,24 @@ goog.scope(function()
          */
         addParentController: function(controller)
         {
+            /**
+             * @type {ispring.sample.controller.ApplicationController}
+             * @private
+             */
             this._parentController = controller;
+            
+            this._createView();
+            this._createBoardsController();
         },
 
         /**
-         * @returns {string}
+         * @returns {ispring.sample.I18n}
          */
-        getLanguage: function()
+        getI18n: function()
         {
-            return this._parentController.getLanguage();
-        },
-        
-        changeLanguage: function()
-        {
-            this._trelloView.changeLanguage(this._parentController.getLanguage());
-
-            for (var i = 0; i < this._childConstructors.length; i++)
-            {
-                this._childConstructors[i].changeLanguage();
-            }
-        },
-        
-        removeChildren: function(node)
-        {
-            while (node.firstChild)
-            {
-                node.removeChild(node.firstChild);
-            }
+            return this._parentController.getI18n();
         },
 
-        clickBackspace: function(modelBoard)
-        {
-            this._trelloModel.setBoard(modelBoard);
-            this._childConstructors = [];
-            this._trelloView.showView();
-        },
-
-        drawBoards: function()
-        {
-            this.removeChildren(document.getElementById(this._conf._ID_BOARDS_PANEL));
-            var i = 0;
-            while (i < this._trelloModel.getNumberBoards())
-            {
-                this._trelloView.drawBoards(this._trelloModel.getUserBoard(i));
-                i += 1;
-            }
-        },
-
-        createBoard: function(boardName)
-        {
-            this._trelloModel.createBoard(boardName);
-            this.drawBoards();
-        },
-
-        clickBoard: function(boardId)
-        {
-            this._trelloView.hideView();
-
-            const BoardLoader = ispring.sample.loader.BoardLoader;
-            
-            const _boardLoader = new BoardLoader();
-
-            const BoardController = ispring.sample.controller.BoardController;
-
-            /**
-             * @type {ispring.sample.controller.BoardController}
-             * @private
-             */
-            var _boardController = new BoardController(_boardLoader.loadBoardModel(this._trelloModel.getBoard(boardId)));
-            _boardController.addParentController(this);
-            this._childConstructors.push(_boardController);
-        },
-        
         getModel: function()
         {
             return this._trelloModel;

@@ -1,9 +1,10 @@
 goog.provide("ispring.sample.controller.BoardController");
 
-goog.require("goog.dom.TagName");
 goog.require("ispring.sample.Config");
 
 goog.require("ispring.sample.view.BoardView");
+
+goog.require("ispring.sample.controller.ListsController");
 
 /**
  * @export
@@ -14,7 +15,7 @@ goog.scope(function()
 
     /**
      * @constructor
-     * @param {ispring.sample.model.BoardModel} model
+     * @param {ispring.sample.model.Board} model
      */
     ispring.sample.controller.BoardController = goog.defineClass(null, {
         constructor: function(model)
@@ -22,35 +23,74 @@ goog.scope(function()
             const Config = ispring.sample.Config;
             this._conf = new Config();
             this._boardModel = model;
-            
+
+            const thisPtr = this;
+
+            document.addEventListener(this._conf._EVENT_BACKSPACE_TO_TRELLO, function (e) 
+            {
+                thisPtr._boardView.cleanView();
+            });
+
+            document.addEventListener(this._conf._EVENT_CLEAN_VIEW, function(e)
+            {
+                thisPtr._boardView.cleanView();
+            });
+        },
+
+        _createListsController: function()
+        {
+            const ListsController = ispring.sample.controller.ListsController;
+
+            /**
+             * @type {ispring.sample.controller.ListsController}
+             * @private
+             */
+            this._listsController = new ListsController(this._boardModel.getLists());
+
+            this._listsController.addParentController(this);
+        },
+
+        _createView: function()
+        {
             const BoardView = ispring.sample.view.BoardView;
-            
+
+            /**
+             * @type {ispring.sample.view.BoardView}
+             * @private
+             */
             this._boardView = new BoardView(this);
-            this.drawLists();
+
+            const thisPtr = this;
+            document.addEventListener(this._conf._EVENT_LANGUAGE_MODIFIED, function (e) 
+            {
+                thisPtr._boardView.changeLanguage();
+            });
         },
 
         /**
-         * @param {ispring.sample.controller.ApplicationController} controller
+         * @param {ispring.sample.controller.BoardsController} controller
          */
         addParentController: function(controller)
         {
+            /**
+             * @type {ispring.sample.controller.BoardsController}
+             * @private
+             */
             this._parentController = controller;
+            this._createView();
+
+            this._createListsController();
         },
 
         /**
-         * @returns {string}
+         * @returns {ispring.sample.I18n}
          */
-        getLanguage: function()
+        getI18n: function()
         {
-            return this._parentController.getLanguage();
+            return this._parentController.getI18n();
         },
 
-        changeLanguage: function()
-        {
-            this._boardView.changeLanguage(this._parentController.getLanguage());
-            this.drawLists();
-        },
-
+        /*
         removeChildren: function(node)
         {
             while (node.firstChild)
@@ -58,13 +98,8 @@ goog.scope(function()
                 node.removeChild(node.firstChild);
             }
         },
-
-        clickBackspace: function()
-        {
-            this._parentController.clickBackspace(this.getModel());
-            this._boardView.deleteView();
-        },
-        
+*/
+        /*
         renameList: function(id, newName)
         {
             this._boardModel.renameList(id, newName);
@@ -73,8 +108,8 @@ goog.scope(function()
         renameCard: function(id, numId, newName)
         {
             this._boardModel.renameCard(id, numId, newName);    
-        },
-        
+        },*/
+        /*
         drawLists: function()
         {
             this.removeChildren(document.getElementById(this._conf._ID_LIST_PLACE));
@@ -84,19 +119,14 @@ goog.scope(function()
                 this._boardView.drawLists(this._boardModel.getList(i));
                 i += 1;
             }
-        },
+        },*/
 
         clickAddCard: function(id)
         {
             this._boardModel.addCardInLists(id);
-            this.drawLists();
+            //this.drawLists();
         },
         
-        createList: function(listName)
-        {
-            //this._trelloModel.createBoard(listName);
-            this.drawLists();
-        },
 
         getModel: function()
         {

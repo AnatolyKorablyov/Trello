@@ -31,6 +31,11 @@ goog.scope(function() {
 
             return utftext;
         },
+
+        /**
+         * @param {string} str
+         * @returns {string}
+         */
         sha1:   function( str ) {	// Calculate the sha1 hash of a string
             var rotate_left = function (n, s) {
                 var t4 = ( n << s ) | (n >>> (32 - s));
@@ -159,7 +164,7 @@ goog.scope(function() {
                 H4 = (H4 + E) & 0x0ffffffff;
             }
 
-            var temp = cvt_hex(H0) + cvt_hex(H1) + cvt_hex(H2) + cvt_hex(H3) + cvt_hex(H4);
+            temp = cvt_hex(H0) + cvt_hex(H1) + cvt_hex(H2) + cvt_hex(H3) + cvt_hex(H4);
             return temp.toLowerCase();
         }
     });

@@ -3,7 +3,7 @@ goog.provide("ispring.sample.loader.BoardLoader");
 goog.require("ispring.sample.Config");
 
 goog.require("ispring.sample.model.Board");
-goog.require("ispring.sample.loader.ListLoader");
+goog.require("ispring.sample.loader.ListsLoader");
 //goog.require("ispring.sample.model.List");
 
 /**
@@ -29,44 +29,25 @@ goog.scope(function()
         loadBoardModel: function(board)
         {
             const Board = ispring.sample.model.Board;
+
             const boardModel = new Board(board._nameBoard, board._id);
 
-
-            boardModel.clearListsID();
-            this._loadListsId(boardModel.getListsID(), board._listsId);
             this._loadLists(boardModel.getLists(), board._lists);
 
             return boardModel;
         },
 
         /**
-         * @private
-         * @param {ispring.sample.model.Board} boardModelListsId
-         * @param {Array} listsId
-         */
-        _loadListsId: function(boardModelListsId, listsId)
-        {
-            var lengthArray = listsId.length;
-            for (var i = 0; i < lengthArray; i++)
-            {
-                boardModelListsId.push(listsId[i]);
-            }
-        },
-
-        /**
-         * @param {ispring.sample.model.Board} boardModelLists
-         * @param {{}} lists
+         * @param {Object} boardModelLists
+         * @param {Object} lists
          * @private
          */
         _loadLists: function(boardModelLists, lists)
         {
-            const ListLoader = ispring.sample.loader.ListLoader;
-            const listLoader = new ListLoader();
+            const ListsLoader = ispring.sample.loader.ListsLoader;
+            const listsLoader = new ListsLoader();
 
-            for (var key in lists)
-            {
-                boardModelLists[key] = listLoader.loadListModel(lists[key]);
-            }
+            boardModelLists = listsLoader.loadListsModel(lists);
         }
     });
 });

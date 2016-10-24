@@ -1,8 +1,8 @@
 goog.provide("ispring.sample.controller.AuthorizationController");
 
-goog.require("goog.dom.TagName");
+//goog.require("goog.dom.TagName");
 
-goog.require("ispring.sample.I18n");
+//goog.require("ispring.sample.I18n");
 goog.require("ispring.sample.Config");
 goog.require("ispring.sample.ShaCrypt");
 goog.require("ispring.sample.view.AuthorizationView");
@@ -13,10 +13,7 @@ goog.require("ispring.sample.model.AuthorizationModel");
  */
 goog.scope(function()
 {
-    const I18n = ispring.sample.I18n;
-    const Config = ispring.sample.Config;
-    const ShaCrypt = ispring.sample.ShaCrypt;
-    const AuthorizationView = ispring.sample.view.AuthorizationView;
+    //const I18n = ispring.sample.I18n;
 
     /**
      * @constructor
@@ -25,12 +22,39 @@ goog.scope(function()
     ispring.sample.controller.AuthorizationController = goog.defineClass(null, {
         constructor: function (model)
         {
-            this._i18n = new I18n("ru");
+            const thisPtr = this;
+
+            const Config = ispring.sample.Config;
+
+            /**
+             * @type {ispring.sample.Config}
+             * @private
+             */
             this._conf = new Config();
+
+            const ShaCrypt = ispring.sample.ShaCrypt;
+
+            /**
+             * @type {ispring.sample.ShaCrypt}
+             * @private
+             */
             this._crypt = new ShaCrypt();
 
             this._authorizationModel = model;
 
+            document.addEventListener(this._conf._EVENT_LANGUAGE_MODIFIED, function(e)
+            {
+                thisPtr._changeLanguage();
+            });
+        },
+
+        /**
+         * @private
+         */
+        _changeLanguage: function()
+        {
+            this._authorizationView.changeLanguage();
+            this._resetErrors();
         },
 
         /**
@@ -38,28 +62,37 @@ goog.scope(function()
          */
         addParentController: function(controller)
         {
+            /**
+             * @type {ispring.sample.controller.ApplicationController}
+             * @private
+             */
             this._parentController = controller;
+
+            /**
+             * @type {ispring.sample.I18n}
+             * @private
+             */
+            this._i18n = this._parentController.getI18n();
+
+            const AuthorizationView = ispring.sample.view.AuthorizationView;
+            /**
+             * @type {ispring.sample.view.AuthorizationView}
+             * @private
+             */
             this._authorizationView = new AuthorizationView(this);
         },
 
         /**
-         * @returns {string}
+         * @returns {ispring.sample.I18n}
          */
-        getLanguage: function()
+        getI18n: function()
         {
-            return this._parentController.getLanguage();
+            return this._parentController.getI18n();
         },
 
-        changeLanguage: function()
+        buttonSendAct: function()
         {
-            this._i18n = new I18n(this._parentController.getLanguage());
-            this._authorizationView.changeLanguage(this._parentController.getLanguage());
-            this._resetErrors();
-        },
-        
-        ButtonSendAct: function()
-        {
-            if (this.ValidationUser())
+            if (this.validationUser())
             {
                 this._parentController.authorizationComplete(this._authorizationModel.getUserName());
             }
@@ -70,11 +103,7 @@ goog.scope(function()
          */
         _resetErrors: function()
         {
-            var login = document.getElementById(this._conf._ID_INPUT_USER_NAME);
-            var pass = document.getElementById(this._conf._ID_INPUT_PASSWORD);
-
-            this._authorizationView.resetError(login.parentNode);
-            this._authorizationView.resetError(pass.parentNode);
+            this._authorizationView.resetAllErrors();
         },
 
         /**
@@ -85,7 +114,8 @@ goog.scope(function()
             return this._authorizationModel;
         },
 
-        ValidationUser: function()
+
+        validationUser: function()
         {
             var login = document.getElementById(this._conf._ID_INPUT_USER_NAME);
             var pass = document.getElementById(this._conf._ID_INPUT_PASSWORD);
@@ -124,6 +154,7 @@ goog.scope(function()
                 }
                 else
                 {
+
                     if (this._crypt.sha1(pass.value) == this._authorizationModel.getPass(login.value))
                     {
                         this._authorizationModel.setUserName(login.value);
